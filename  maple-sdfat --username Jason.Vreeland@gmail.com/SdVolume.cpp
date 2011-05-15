@@ -306,18 +306,6 @@ uint8_t SdVolume::init(Sd2Card* dev, uint8_t part)
 	  return false;
   }
 
-
-  for(int i=0 ; i<32 ; i++)
-  {
-	  SerialUSB.print(i*16,HEX);
-	  for(int j=0; j<16; j++)
-	  {
-		  SerialUSB.print(",");
-		  SerialUSB.print(cacheBuffer_.data[j+i*16],HEX);
-	  }
-	  SerialUSB.println("");
-  }
-
   bpb_t* bpb = &cacheBuffer_.fbs.bpb;
   if (bpb->bytesPerSector != 512 ||
     bpb->fatCount == 0 ||
