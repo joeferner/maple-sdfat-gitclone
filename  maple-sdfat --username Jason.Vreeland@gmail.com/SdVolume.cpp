@@ -288,23 +288,37 @@ uint8_t SdVolume::init(Sd2Card* dev, uint8_t part)
 	}
 
     part_t* p = &cacheBuffer_.mbr.part[part-1];
-    if ((p->boot & 0X7F) !=0  ||
+
+	for(int i = 0; i<32; i++)
+	{
+		SerialUSB.print(i*16,HEX);
+		for(int j = 0; j < 16 ; j++)
+		{
+			SerialUSB.print(",");
+			SerialUSB.print(cacheBuffer_.data[i*16+j],HEX);
+		}
+		SerialUSB.println("");
+	}
+
+	
+	if ((p->boot & 0X7F) !=0  ||
       p->totalSectors < 100 ||
       p->firstSector == 0) 
 	{
       // not a valid partition
 	
 	  SerialUSB.println("Error: SdVolume::init() Invalid partition");
-	  SerialUSB.print("p->boot ");
-	  SerialUSB.println(p->boot & 0x7f);
-	  SerialUSB.print("p->totalSectors ");
-	  SerialUSB.println(p->totalSectors);
-	  SerialUSB.print("p->firstSector ");
-	  SerialUSB.println(p->firstSector);
-
 	  return false;
     }
-    volumeStartBlock = p->firstSector;
+	  SerialUSB.print("p1 firstSector");
+	  SerialUSB.print(cacheBuffer_.mbr.part[1].totalSectors,HEX);
+
+	  SerialUSB.print("p1 totalSector");
+	  SerialUSB.print(cacheBuffer_.mbr.part[1].totalSectors,HEX);
+	  SerialUSB.print(" >> ");
+	  SerialUSB.println(long(cacheBuffer_.data[470]),HEX);
+
+	volumeStartBlock = p->firstSector;
   }
   if (!cacheRawBlock(volumeStartBlock, CACHE_FOR_READ)) 
   {

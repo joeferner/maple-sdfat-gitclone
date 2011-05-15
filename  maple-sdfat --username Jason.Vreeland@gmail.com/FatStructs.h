@@ -56,9 +56,9 @@ struct partitionTable {
            * Sector part of Cylinder-head-sector address of the first block in
            * the partition. Legal values are 1-63. Only used in old PC BIOS.
            */
-  unsigned beginSector : 6;
+  uint8_t beginSector : 6;
            /** High bits cylinder for first block in partition. */
-  unsigned beginCylinderHigh : 2;
+  uint8_t beginCylinderHigh : 2;
           /**
            * Combine beginCylinderLow with beginCylinderHigh. Legal values
            * are 0-1023.  Only used in old PC BIOS.
@@ -78,9 +78,9 @@ struct partitionTable {
            * Sector part of cylinder-head-sector address of the last sector in
            * the partition.  Legal values are 1-63. Only used in old PC BIOS.
            */
-  unsigned endSector : 6;
+  uint8_t endSector : 6;
            /** High bits of end cylinder */
-  unsigned endCylinderHigh : 2;
+  uint8_t endCylinderHigh : 2;
           /**
            * Combine endCylinderLow with endCylinderHigh. Legal values
            * are 0-1023.  Only used in old PC BIOS.
@@ -103,6 +103,7 @@ typedef struct partitionTable part_t;
  */
 struct masterBootRecord {
            /** Code Area for master boot program. */
+//  uint8_t  codeArea[436]; //seems to be off by 4 bytes (works at 436)
   uint8_t  codeArea[440];
            /** Optional WindowsNT disk signature. May contain more boot code. */
   uint32_t diskSignature;
