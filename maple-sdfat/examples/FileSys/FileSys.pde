@@ -31,17 +31,17 @@ void setup()
     SerialUSB.println("card.init passed");
 //  spi.end();
   
-//  spi.begin(SPI_1_125MHZ, MSBFIRST, 0);
+//  spi.begin(SPI_9MHZ, MSBFIRST, 0);
+  spi.begin(SPI_4_5MHZ, MSBFIRST, 0);
   
   delay(100);
   
   // initialize a FAT volume
-  if (!volume.init(&card)) 
+  if (!volume.init(&card,1)) 
     SerialUSB.println("volume.init failed");
   else
     SerialUSB.println("volume.init passed");
     
-  
   // open the root directory
   if (!root.openRoot(&volume)) 
     SerialUSB.println("openRoot failed");
@@ -49,13 +49,12 @@ void setup()
     SerialUSB.println("openRoot passed");
     
   // open a file
-  if (file.open(&root, "output2.csv", O_READ)) 
+  if (file.open(&root, "Read.txt", O_READ)) 
   {
-    SerialUSB.println("Opened PRINT00.TXT");
-  }
-  else if (file.open(&root, "WRITE00.TXT", O_READ)) 
-  {
-    SerialUSB.println("Opened WRITE00.TXT");    
+    SerialUSB.println("Opened Read.txt");
+    for(int i=0; i<15; i++)
+      SerialUSB.print((char)file.read());
+    SerialUSB.println("");
   }
   else
   {
