@@ -16,6 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with the Arduino Sd2Card Library.  If not, see
  * <http://www.gnu.org/licenses/>.
+ *
+ * Originally ported to the maple platform by Jason Vreeland <jason.vreeland@gmail.com>
+ * Patched by Donald Delmar Davis <don@suspectdevices.com> fixing issues #1-3
+ *
  */
 #include <WProgram.h>
 #include "Sd2Card.h"
@@ -100,13 +104,13 @@ uint32_t Sd2Card::cardSize(void) {
 //------------------------------------------------------------------------------
 void Sd2Card::chipSelectHigh(void) 
 {
-  digitalWrite(10, HIGH);
+  digitalWrite(SPIn->nssPin(), HIGH);
 }
 
 //------------------------------------------------------------------------------
 void Sd2Card::chipSelectLow(void) 
 {
-  digitalWrite(10, LOW);
+  digitalWrite(SPIn->nssPin(), LOW);
 }
 
 //------------------------------------------------------------------------------
@@ -187,10 +191,10 @@ uint8_t Sd2Card::init(HardwareSPI *s)
 
   uint16_t t0 = (uint16_t)millis();
   uint32_t arg;
-
-  pinMode(10,OUTPUT);
-
   SPIn = s;
+    
+  pinMode(SPIn->nssPin(),OUTPUT);
+
   // set pin modes
 /*  pinMode(chipSelectPin_, OUTPUT);
   chipSelectHigh();
