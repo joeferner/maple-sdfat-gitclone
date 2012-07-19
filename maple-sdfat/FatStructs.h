@@ -16,6 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with the Arduino SdFat Library.  If not, see
  * <http://www.gnu.org/licenses/>.
+ *
+ * Originally ported to the maple platform by Jason Vreeland <jason.vreeland@gmail.com>
+ * Patched by Donald Delmar Davis <don@suspectdevices.com> fixing issues 1-3
+ *
  */
 #ifndef FatStructs_h
 #define FatStructs_h
@@ -326,7 +330,7 @@ struct directoryEntry {
             * The first eight bytes contain the file name with blank fill.
             * The last three bytes contain the file extension with blank fill.
             */
-  uint8_t  name[11];
+  char  name[11];
           /** Entry attributes.
            *
            * The upper two bits of the attribute byte are reserved and should
