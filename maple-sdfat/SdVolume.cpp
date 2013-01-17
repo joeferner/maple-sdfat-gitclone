@@ -277,13 +277,13 @@ uint8_t SdVolume::init(Sd2Card* dev, uint8_t part)
   {
     if (part > 4)
 	{
-		SerialUSB.println("Error: SdVolume::init() MBR");
+		DEBUG_SDFAT_PRINTLN("Error: SdVolume::init() MBR");
 		return false;
 	}
 
     if (!cacheRawBlock(volumeStartBlock, CACHE_FOR_READ)) 
 	{
-		SerialUSB.println("Error: SdVolume::init() Cache for read");
+		DEBUG_SDFAT_PRINTLN("Error: SdVolume::init() Cache for read");
 		return false;
 	}
 
@@ -295,14 +295,14 @@ uint8_t SdVolume::init(Sd2Card* dev, uint8_t part)
 	{
       // not a valid partition
 	
-	  SerialUSB.println("Error: SdVolume::init() Invalid partition");
+	  DEBUG_SDFAT_PRINTLN("Error: SdVolume::init() Invalid partition");
 	  return false;
     }
 	volumeStartBlock = p->firstSector;
   }
   if (!cacheRawBlock(volumeStartBlock, CACHE_FOR_READ)) 
   {
-	  SerialUSB.println("Error: SdVolume::init() Cache for read2");
+	  DEBUG_SDFAT_PRINTLN("Error: SdVolume::init() Cache for read2");
 	  return false;
   }
 
@@ -313,7 +313,7 @@ uint8_t SdVolume::init(Sd2Card* dev, uint8_t part)
     bpb->sectorsPerCluster == 0) 
   {
        // not valid FAT volume
-      SerialUSB.println("Error: SdVolume::init() invalid FAT volume");
+      DEBUG_SDFAT_PRINTLN("Error: SdVolume::init() invalid FAT volume");
       return false;
   }
   fatCount_ = bpb->fatCount;
@@ -327,7 +327,7 @@ uint8_t SdVolume::init(Sd2Card* dev, uint8_t part)
     if (clusterSizeShift_++ > 7) 
 	{
 		return false;
-		SerialUSB.println("Error: SdVolume::init() not power of 2");
+		DEBUG_SDFAT_PRINTLN("Error: SdVolume::init() not power of 2");
 	}
   }
   blocksPerFat_ = bpb->sectorsPerFat16 ?

@@ -19,6 +19,21 @@
  */
 #ifndef Sd2Card_h
 #define Sd2Card_h
+
+#include <HardwareSerial.h>
+
+#ifndef DEBUG_SDFAT
+#define DEBUG_SDFAT SerialUSB
+#endif
+
+#ifndef DEBUG_SDFAT_PRINT
+#define DEBUG_SDFAT_PRINT DEBUG_SDFAT.print
+#endif
+
+#ifndef DEBUG_SDFAT_PRINTLN
+#define DEBUG_SDFAT_PRINTLN DEBUG_SDFAT.println
+#endif
+
 /**
  * \file
  * Sd2Card class

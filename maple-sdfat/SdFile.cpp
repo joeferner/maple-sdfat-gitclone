@@ -216,7 +216,7 @@ void SdFile::ls(uint8_t flags, uint8_t indent) {
     if (!DIR_IS_FILE_OR_SUBDIR(p)) continue;
 
     // print any indent spaces
-    for (int8_t i = 0; i < indent; i++) SerialUSB.print(' ');
+    for (int8_t i = 0; i < indent; i++) DEBUG_SDFAT_PRINT(' ');
 
     // print file name with possible blank fill
     printDirName(*p, flags & (LS_DATE | LS_SIZE) ? 14 : 0);
@@ -224,15 +224,15 @@ void SdFile::ls(uint8_t flags, uint8_t indent) {
     // print modify date/time if requested
     if (flags & LS_DATE) {
        printFatDate(p->lastWriteDate);
-       SerialUSB.print(' ');
+       DEBUG_SDFAT_PRINT(' ');
        printFatTime(p->lastWriteTime);
     }
     // print size if requested
     if (!DIR_IS_SUBDIR(p) && (flags & LS_SIZE)) {
-      SerialUSB.print(' ');
-      SerialUSB.print(p->fileSize);
+      DEBUG_SDFAT_PRINT(' ');
+      DEBUG_SDFAT_PRINT(p->fileSize);
     }
-    SerialUSB.println();
+    DEBUG_SDFAT_PRINTLN();
 
     // list subdirectory content if requested
     if ((flags & LS_R) && DIR_IS_SUBDIR(p)) {
@@ -594,18 +594,18 @@ void SdFile::printDirName(const dir_t& dir, uint8_t width) {
   for (uint8_t i = 0; i < 11; i++) {
     if (dir.name[i] == ' ')continue;
     if (i == 8) {
-      SerialUSB.print('.');
+      DEBUG_SDFAT_PRINT('.');
       w++;
     }
-    SerialUSB.print(dir.name[i]);
+    DEBUG_SDFAT_PRINT(dir.name[i]);
     w++;
   }
   if (DIR_IS_SUBDIR(&dir)) {
-    SerialUSB.print('/');
+    DEBUG_SDFAT_PRINT('/');
     w++;
   }
   while (w < width) {
-    SerialUSB.print(' ');
+    DEBUG_SDFAT_PRINT(' ');
     w++;
   }
 }
@@ -617,10 +617,10 @@ void SdFile::printDirName(const dir_t& dir, uint8_t width) {
  * \param[in] fatDate The date field from a directory entry.
  */
 void SdFile::printFatDate(uint16_t fatDate) {
-  SerialUSB.print(FAT_YEAR(fatDate));
-  SerialUSB.print('-');
+  DEBUG_SDFAT_PRINT(FAT_YEAR(fatDate));
+  DEBUG_SDFAT_PRINT('-');
   printTwoDigits(FAT_MONTH(fatDate));
-  SerialUSB.print('-');
+  DEBUG_SDFAT_PRINT('-');
   printTwoDigits(FAT_DAY(fatDate));
 }
 //------------------------------------------------------------------------------
@@ -632,9 +632,9 @@ void SdFile::printFatDate(uint16_t fatDate) {
  */
 void SdFile::printFatTime(uint16_t fatTime) {
   printTwoDigits(FAT_HOUR(fatTime));
-  SerialUSB.print(':');
+  DEBUG_SDFAT_PRINT(':');
   printTwoDigits(FAT_MINUTE(fatTime));
-  SerialUSB.print(':');
+  DEBUG_SDFAT_PRINT(':');
   printTwoDigits(FAT_SECOND(fatTime));
 }
 //------------------------------------------------------------------------------
@@ -647,7 +647,7 @@ void SdFile::printTwoDigits(uint8_t v) {
   str[0] = '0' + v/10;
   str[1] = '0' + v % 10;
   str[2] = 0;
-  SerialUSB.print(str);
+  DEBUG_SDFAT_PRINT(str);
 }
 //------------------------------------------------------------------------------
 /**
